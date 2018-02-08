@@ -2,7 +2,9 @@ default: sporth
 
 MASTER_MAKEFILE=1
 
-CFLAGS += -O3 -fPIC -I/usr/local/include -Wall -ansi
+PREFIX ?= /usr/local
+
+CFLAGS += -O3 -fPIC -I$(PREFIX)/include -Wall -ansi
 
 include config.mk
 ifdef DEBUG_MODE
@@ -92,7 +94,7 @@ util/sporth_tex: util/sporth_tex.c libsporth.a
 	$(CC) -Ih $(CFLAGS) $< -o $@ libsporth.a $(LIBS)
 
 sporth: sporth.c $(OBJ) h/ugens.h
-	$(CC) sporth.c -L/usr/local/lib $(CFLAGS) -g -Ih -o $@ $(OBJ) $(KOBJ) $(LIBS) 
+	$(CC) sporth.c -L$(PREFIX)/lib $(CFLAGS) -g -Ih -o $@ $(OBJ) $(KOBJ) $(LIBS) 
 
 libsporth.a: $(OBJ) sporth.h
 	$(AR) rcs libsporth.a $(KOBJ) $(OBJ) 
@@ -101,14 +103,14 @@ sporth.h: $(OBJ)
 	sh util/header_gen.sh
 
 install: $(SPORTHLIBS) sporth sporth.h
-	install sporth /usr/local/bin
-	install sporth.h /usr/local/include/sporth.h
-	install ugens/cdb/cdb.h /usr/local/include/cdb.h
-	install $(SPORTHLIBS) /usr/local/lib
-	mkdir -p /usr/local/share/sporth
-	install ugen_reference.txt /usr/local/share/sporth
-	install util/ugen_lookup /usr/local/bin
-	install util/spparse /usr/local/bin
+	install sporth $(PREFIX)/bin
+	install sporth.h $(PREFIX)/include/sporth.h
+	install ugens/cdb/cdb.h $(PREFIX)/include/cdb.h
+	install $(SPORTHLIBS) $(PREFIX)/lib
+	mkdir -p $(PREFIX)/share/sporth
+	install ugen_reference.txt $(PREFIX)/share/sporth
+	install util/ugen_lookup $(PREFIX)/bin
+	install util/spparse $(PREFIX)/bin
 	./util/installer.sh $(BIN)
 	./ugens/polysporth/install.sh
 

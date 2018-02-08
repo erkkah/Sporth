@@ -1,9 +1,11 @@
+.DS_Store
 *.wav
 *.o
 *.swp
 *.a
 *.dSYM
 sporth
+sporth.h
 playground
 sp_dict.lua
 TODO.txt
@@ -11,3 +13,4 @@ config.mk
 util/jacksporth
 util/cdb
 util/jsporth
+ugen
